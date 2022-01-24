@@ -1,7 +1,6 @@
 #authored by Ethan Gutierrez and Cayden Shaffer, but mostly Ethan
 
-#insert file from argument in command line and search query 
-from re import search
+#insert file from argument in command line and search query
 import sys
 import xml.etree.ElementTree as ET
 import os
@@ -29,21 +28,19 @@ for root, directory, fileList in os.walk(os.path.realpath(rootDir)):
 	for fileName in fileList:
 		totalFiles = totalFiles + 1
 		#file parse XML
-		tree = ET.parse(fileName).getroot()
+		tree = ET.parse(os.path.realpath(os.path.join(rootDir, fileName))).getroot()
 		# loop through tree children #search parsed
-		for child in tree: # items
-
+		for child in tree.findall('{http://infor.com/daf}item'): # items
 			foundArray = [] 
-			for index in len(searchQuery):
-				foundArray.push(",")
+			for index in searchQuery:
+				foundArray.extend(",")
 
-			for grandchild in child.child: # elements of items
-				index = searchQuery.index(grandchild.tag)
-				if not (index == 0):
+			for search in searchQuery:
+				if(child.find('{http://infor.com/daf}' + (search)) is not None):
 					foundEntries = True
-					foundArray[index] = grandchild.tag + ","
-
+					foundArray.append(child.find('{http://infor.com/daf}' + (search)).text)
 			outputFile.write(''.join(foundArray) + '\n')
+
 print("Searched: ", totalFiles, " Files")
 if not foundEntries:
 	print("Noting matched your search Queries")
