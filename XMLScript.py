@@ -1,4 +1,4 @@
-#authored by Ethan Gutierrez and Cayden Shaffer, but mostly Ethan
+#authored by Ethan Gutierrez and Cayden Shaffer, but mostly Ethan, by mostly I mean all
 
 #insert file from argument in command line and search query
 import sys
