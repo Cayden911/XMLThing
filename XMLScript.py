@@ -6,22 +6,24 @@ import xml.etree.ElementTree as ET
 import os
 
 #check to make sure that program has requrired args
-if(len(sys.argv) < 3):
-	print("It looks like you forgot to input something")
-	print("Usage: python XMLScript.py FOLDER_OF_XML TAGS [...]")
-	exit()
-
-rootDir = sys.argv[1] #folder for xmls
+#if(len(sys.argv) < 3):
+#	print("It looks like you forgot to input something")
+#	print("Usage: python XMLScript.py FOLDER_OF_XML TAGS [...]")
+#	exit()
 searchQuery = [] #things to pull out of the xmls
 foundEntries = False
 
-if __name__ == "__main__":
-	print("Using folder: " + rootDir)
-	for arg in sys.argv: # get all search queries
-		if arg == sys.argv[0] or arg == rootDir:
-			continue
-		searchQuery.append(arg)
-	print("List of searches: " + ','.join(searchQuery))
+print("Input path to the XML Folder: ", end='')
+rootDir = input().replace("\"", "") #folder for xmls
+print("Input nothing and press enter to continue")
+while True:
+	print("Input search tag[" + str(len(searchQuery)) + "]: ", end='')
+	search = input()
+	if(search == ""):
+		break
+	searchQuery.append(search)
+
+
 #make output text file
 outputFile = open('_'.join(searchQuery) + '.csv','w')
 outputFile.write(','.join(searchQuery) + '\n')
@@ -51,8 +53,10 @@ print("Searched: ", totalFiles, " Files")
 if not foundEntries:
 	print("Noting matched your search Queries")
 else:
-	print("Sucsess!")
+	print("Success!")
 
 #close file
 outputFile.close()
 print("Output file located at: " + os.path.realpath(outputFile.name))
+print("Press enter to exit program")
+done = input()
